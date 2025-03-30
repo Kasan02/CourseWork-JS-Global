@@ -40,6 +40,7 @@
     border: none;
     display: flex;
     cursor: pointer;
+    justify-content: center;
   }
   
   .link-button {

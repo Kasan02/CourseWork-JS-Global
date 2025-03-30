@@ -7,14 +7,11 @@ import { posts } from "../index.js";
  */
 
 export function renderPostsPageComponent({ appEl }) {
-  // Формируем список постов на основе данных из posts
   const postsHtml = posts.length
     ? posts
         .map((post) => {
-          // Предполагается, что API возвращает следующие поля:
-          // id, user: { id, name, imageUrl }, imageUrl, description, likes, createdAt, isLiked
           const formattedDate = post.createdAt
-            ? /* Если нужна библиотека date-fns: formatDistanceToNow(new Date(post.createdAt), { addSuffix: true }) */
+            ? 
               new Date(post.createdAt).toLocaleString()
             : "";
           return `
@@ -60,12 +57,9 @@ export function renderPostsPageComponent({ appEl }) {
 
   appEl.innerHTML = appHtml;
 
-  // Рендерим шапку страницы
   renderHeaderComponent({
     element: document.querySelector(".header-container"),
   });
-
-  // Обработчик клика по заголовку каждого поста для перехода на страницу пользователя
   for (let userEl of document.querySelectorAll(".post-header")) {
     userEl.addEventListener("click", () => {
       goToPage(USER_POSTS_PAGE, {

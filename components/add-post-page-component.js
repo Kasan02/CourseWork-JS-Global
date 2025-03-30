@@ -26,67 +26,69 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
           </div>
       </div>
     `;
-
     appEl.innerHTML = appHtml;
 
-    // Рендерим шапку через общий компонент
     renderHeaderComponent({
       element: document.querySelector(".header-container"),
     });
 
-    // Переменные для хранения выбранного файла и превью
     let selectedFile = null;
     let previewUrl = null;
 
     const fileInput = document.querySelector(".file-upload-input");
     const fileUploadLabel = document.getElementById("file-upload-label");
 
-    // Обработка выбора файла
     fileInput.addEventListener("change", (event) => {
       if (event.target.files && event.target.files[0]) {
-        selectedFile = event.target.files[0];
+        const file = event.target.files[0];
+        selectedFile = file;
         previewUrl = URL.createObjectURL(selectedFile);
-
-        // Обновляем содержимое метки, чтобы показать превью и кнопку замены
         fileUploadLabel.innerHTML = `
-        <div class="file-upload-preview-container">
-          <img src="${previewUrl}" alt="Preview" class="upload-preview">
-          <br>
-          <button type="button" class="button form-button">Заменить фото</button>
+          <div class="file-upload-preview-container" style="display: flex; align-items: center; justify-content: flex-start;">
+            <img src="${previewUrl}" alt="Preview" class="upload-preview">
+            <button type="button" class="button form-button replace-photo-button">Заменить фото</button>
+          </div>
         `;
-
-        // Обработчик для кнопки "Заменить фото"
-        const replaceButton = fileUploadLabel.querySelector(".replace-photo-button");
-        replaceButton.addEventListener("click", (e) => {
-          e.stopPropagation();
-          fileInput.click();
+        fileUploadLabel.addEventListener("click", (event) => {
+          if (event.target.classList.contains("replace-photo-button")) {
+            event.stopPropagation();
+            fileInput.click();
+          }
         });
       }
     });
 
-    // Обработчик клика по кнопке "Добавить"
     document.getElementById("add-button").addEventListener("click", () => {
       const description = document.getElementById("post-description").value.trim();
-
+    
       if (!selectedFile) {
         alert("Пожалуйста, выберите фото");
         return;
       }
-
-      // Сначала загружаем изображение на сервер
+    
+      if (!description) {
+        alert("Пожалуйста, добавьте описание");
+        return;
+      }
       uploadImage({ file: selectedFile })
         .then((uploadResult) => {
-          // uploadResult должен содержать поле imageUrl
-          const imageUrl = uploadResult.imageUrl;
-          // Вызываем переданную callback-функцию для добавления поста
-          onAddPostClick({ description, imageUrl });
+          console.log("Ответ сервера:", uploadResult);
+          if (!uploadResult || !uploadResult.fileUrl) {
+            throw new Error("Сервер не вернул URL изображения");
+          }
+    
+          console.log('Описание:', description);
+          console.log('URL изображения:', uploadResult.fileUrl);
+          onAddPostClick({ description, imageUrl: uploadResult.fileUrl });
         })
         .catch((error) => {
           console.error("Ошибка загрузки изображения:", error);
-          alert("Ошибка загрузки изображения");
+          alert(`Ошибка загрузки изображения: ${error.message || error}`);
         });
     });
+    
   };
 
   render();
 }
+

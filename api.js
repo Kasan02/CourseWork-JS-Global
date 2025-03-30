@@ -23,6 +23,42 @@ export function getPosts({ token }) {
     });
 }
 
+export function addPost({ token, description, imageUrl }) {
+  const url = `${baseHost}/api/v1/${personalKey}/instapro`;
+
+  if (!description || !imageUrl) {
+    throw new Error("Необходимо передать описание и ссылку на изображение");
+  }
+
+  const body = JSON.stringify({ description, imageUrl });
+
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+    body: body,
+  })
+  .then(response => {
+    console.log("Статус ответа:", response.status);
+    if (!response.ok) {
+      return response.text().then(text => { 
+        throw new Error(`Ошибка при добавлении поста: ${text}`);
+      });
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log("Пост успешно добавлен:", data);
+    return data;
+  })
+  .catch(error => {
+    console.error("Ошибка при добавлении поста:", error);
+    throw error;
+  });
+}
+
 export function registerUser({ login, password, name, imageUrl }) {
   return fetch(baseHost + "/api/user", {
     method: "POST",
@@ -55,7 +91,6 @@ export function loginUser({ login, password }) {
   });
 }
 
-// Загружает картинку в облако, возвращает url загруженной картинки
 export function uploadImage({ file }) {
   const data = new FormData();
   data.append("file", file);
