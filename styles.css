@@ -1,3 +1,24 @@
+@font-face {
+    font-family: "StratosSkyeng";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("./assets/fonts/stratosskyengweb-regular.woff2") format("woff2");
+  }
+
+  @font-face {
+    font-family: "StratosSkyeng";
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url("./assets/fonts/stratosskyengweb-medium.woff2") format("woff2");
+  }
+
+  html {
+    /* скрывает скролбары в firefox */
+    scrollbar-width: none;
+  }
+
 .page-container {
     padding: 0 20px;
   }
@@ -14,13 +35,29 @@
   
   .logo {
     margin: 0;
-    font-size: 28px;
+    font-size: 32px;
+    font-weight: 700;
+    font-family: StratosSkyeng;
     cursor: pointer;
     width: 130px;
   }
   
   .header-container {
     margin-bottom: 8px;
+  }
+
+  .page-container {
+    padding: 0 20px;
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 20px 16px;
+    margin-left: -20px;
+    margin-right: -20px;
   }
   
   .header-button {

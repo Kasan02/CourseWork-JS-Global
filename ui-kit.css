@@ -46,12 +46,14 @@
   .secondary-button {
     display: block;
     padding: 10px 13px 13px;
-    font-size: 18px;
-    line-height: 22px;
+    font-size: 20px;
+    line-height: 32px;
     border-radius: 5px;
     background-color: #565eef;
     color: #ffffff;
     border: none;
+    display: flex;
+    justify-content: center;
   }
   
   .link-button {
