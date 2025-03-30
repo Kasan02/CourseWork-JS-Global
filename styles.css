@@ -1,20 +1,4 @@
-@font-face {
-    font-family: "StratosSkyeng";
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url("./assets/fonts/stratosskyengweb-regular.woff2") format("woff2");
-  }
-
-  @font-face {
-    font-family: "StratosSkyeng";
-    font-style: normal;
-    font-weight: 500;
-    font-display: swap;
-    src: url("./assets/fonts/stratosskyengweb-medium.woff2") format("woff2");
-  }
-
-  html {
+html {
     /* скрывает скролбары в firefox */
     scrollbar-width: none;
   }
@@ -228,8 +212,48 @@
   }
   
   .file-upload-label {
-    display: inline-block;
+    display: block;
     box-sizing: border-box;
     width: 100%;
     text-align: center;
   }
+
+  .file-upload-preview-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: auto;
+  }
+
+  .file-upload-preview-container .replace-photo-button {
+    justify-content: flex-start; 
+  }
+
+.upload-preview {
+    width: 100px; 
+    height: 100px;
+    display: block;
+  }
+
+.replace-photo-button {
+    font-size: 14px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+
+.upload-image-container {
+    display: block;
+}
+
+
+.form-button {
+    height: min-content;
+}
+
+.location {
+    justify-content: left;
+}
+
+.center {
+    justify-content: center;
+}
