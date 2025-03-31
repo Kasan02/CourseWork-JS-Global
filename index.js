@@ -67,11 +67,23 @@ export const goToPage = (newPage, data) => {
     }
 
     if (newPage === USER_POSTS_PAGE) {
-      // @@TODO: реализовать получение постов юзера из API
+      page = LOADING_PAGE;
+      renderApp();
+
       console.log("Открываю страницу пользователя: ", data.userId);
-      page = USER_POSTS_PAGE;
-      posts = [];
-      return renderApp();
+
+      return getUserPosts({ token: getToken() })
+        .then((newPosts) => {
+          page = USER_POSTS_PAGE;
+          posts = newPosts;
+          renderApp();
+        })
+        .catch((error) => {
+          console.error(error);
+          goToPage(POSTS_PAGE);
+        });
+      
+      
     }
 
     page = newPage;
@@ -139,29 +151,5 @@ const renderApp = () => {
     return;
   }
 };
-function handlePageChange() {
-  if (page === ADD_POSTS_PAGE) {
-    renderAddPostPageComponent({
-      appEl,
-      onAddPostClick({ description, imageUrl }) {
-        page = LOADING_PAGE;
-        renderApp();  
 
-        addPost({ token: getToken(), description, imageUrl })
-          .then(() => {
-            goToPage(POSTS_PAGE);
-          })
-          .catch((error) => {
-            console.error("Ошибка при добавлении поста:", error);
-            alert(error.message);  
-            goToPage(ADD_POSTS_PAGE);  
-          });
-      },
-    });
-  } else {
-    goToPage(POSTS_PAGE);
-  }
-}
-
-handlePageChange();
-
+goToPage(POSTS_PAGE);

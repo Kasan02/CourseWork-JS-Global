@@ -30,15 +30,12 @@ export function addPost({ token, description, imageUrl }) {
     throw new Error("Необходимо передать описание и ссылку на изображение");
   }
 
-  const body = JSON.stringify({ description, imageUrl });
-
   return fetch(url, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
+      "Authorization": token,
     },
-    body: body,
+    body: JSON.stringify({ description, imageUrl }) ,
   })
   .then(response => {
     console.log("Статус ответа:", response.status);
