@@ -1,0 +1,101 @@
+// Замени на свой, чтобы получить независимый от других набор данных.
+// "боевая" версия инстапро лежит в ключе prod
+const personalKey = "keyProd";
+const baseHost = "https://webdev-hw-api.vercel.app";
+const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
+
+export function getPosts({ token }) {
+  return fetch(postsHost, {
+    method: "GET",
+    headers: {
+      Authorization: token,
+    },
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        throw new Error("Нет авторизации");
+      }
+
+      return response.json();
+    })
+    .then((data) => {
+      return data.posts;
+    });
+}
+
+export function addPost({ token, description, imageUrl }) {
+  const url = `${baseHost}/api/v1/${personalKey}/instapro`;
+
+  if (!description || !imageUrl) {
+    throw new Error("Необходимо передать описание и ссылку на изображение");
+  }
+
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Authorization": token,
+    },
+    body: JSON.stringify({ description, imageUrl }) ,
+  })
+  .then(response => {
+    console.log("Статус ответа:", response.status);
+    if (!response.ok) {
+      return response.text().then(text => { 
+        throw new Error(`Ошибка при добавлении поста: ${text}`);
+      });
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log("Пост успешно добавлен:", data);
+    return data;
+  })
+  .catch(error => {
+    console.error("Ошибка при добавлении поста:", error);
+    throw error;
+  });
+}
+
+export function registerUser({ login, password, name, imageUrl }) {
+  return fetch(baseHost + "/api/user", {
+    method: "POST",
+    body: JSON.stringify({
+      login,
+      password,
+      name,
+      imageUrl,
+    }),
+  }).then((response) => {
+    if (response.status === 400) {
+      throw new Error("Такой пользователь уже существует");
+    }
+    return response.json();
+  });
+}
+
+export function loginUser({ login, password }) {
+  return fetch(baseHost + "/api/user/login", {
+    method: "POST",
+    body: JSON.stringify({
+      login,
+      password,
+    }),
+  }).then((response) => {
+    if (response.status === 400) {
+      throw new Error("Неверный логин или пароль");
+    }
+    return response.json();
+  });
+}
+
+export function uploadImage({ file }) {
+  const data = new FormData();
+  data.append("file", file);
+
+  return fetch(baseHost + "/api/upload/image", {
+    method: "POST",
+    body: data,
+  }).then((response) => {
+    return response.json();
+  });
+}
