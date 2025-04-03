@@ -1,6 +1,6 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts } from "../index.js";
+import { goToPage, posts } from "../index.js";
 /**
  * Дополнительно можно импортировать библиотеку для форматирования даты, например:
  * import { formatDistanceToNow } from "date-fns";
