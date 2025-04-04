@@ -1,5 +1,4 @@
 html {
-    /* скрывает скролбары в firefox */
     scrollbar-width: none;
   }
 

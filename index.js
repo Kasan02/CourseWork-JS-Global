@@ -22,7 +22,7 @@ export let user = getUserFromLocalStorage();
 export let page = null;
 export let posts = [];
 
-const getToken = () => {
+export const getToken = () => {
   const token = user ? `Bearer ${user.token}` : undefined;
   return token;
 };
@@ -33,9 +33,6 @@ export const logout = () => {
   goToPage(POSTS_PAGE);
 };
 
-/**
- * Включает страницу приложения
- */
 export const goToPage = (newPage, data) => {
   if (
     [
@@ -121,7 +118,6 @@ const renderApp = () => {
     return renderAddPostPageComponent({
       appEl,
       onAddPostClick({ description, imageUrl }) {
-        // Реализуем добавление поста через API
         console.log("Добавляю пост...", { description, imageUrl });
         const token = getToken();
         addPost({ token, description, imageUrl })
@@ -144,11 +140,6 @@ const renderApp = () => {
     });
   }
 
-  // if (page === USER_POSTS_PAGE) {
-  //   // @TODO: реализовать страницу с фотографиями отдельного пользвателя
-  //   appEl.innerHTML = "Здесь будет страница фотографий пользователя";
-  //   return;
-  // }
   if (page === USER_POSTS_PAGE) {
     return renderUserPostsPageComponent({
       appEl,

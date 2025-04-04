@@ -1,5 +1,3 @@
-// Замени на свой, чтобы получить независимый от других набор данных.
-// "боевая" версия инстапро лежит в ключе prod
 const personalKey = "keyProd";
 const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
@@ -114,4 +112,50 @@ export function getUserPosts({ token, userId }) {
       return response.json();
     })
     .then((data) => data.posts);
+}
+
+export function likePost({ postId, token }) {
+  return fetch(`${postsHost}/${postId}/like`, {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error("Ошибка при лайке поста");
+    }
+    return response.json();
+  });
+}
+
+export function dislikePost({ postId, token }) {
+  return fetch(`${postsHost}/${postId}/dislike`, {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error("Ошибка при дизлайке поста");
+    }
+    return response.json();
+  });
+}
+
+export function toggleLike({ postId, token, isLiked }) {
+  const url = `${postsHost}/${postId}/${isLiked ? "dislike" : "like"}`; 
+  
+  console.log(`Sending request to: ${url}`); 
+
+  return fetch(url, {
+    method: "POST", 
+    headers: {
+      Authorization: token, 
+    },
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error("Ошибка при лайке поста");
+    }
+    return response.json();
+  });
 }

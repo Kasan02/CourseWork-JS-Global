@@ -1,8 +1,3 @@
-/* 
-  Это стили Дизайн системы, сквозные стили для элементов интерфейса
-  всего приложения: шрифты, кнопки, инпуты и так далее
-*/
-
 @font-face {
   font-family: "StratosSkyeng";
   font-style: normal;
@@ -20,7 +15,6 @@
 }
   
   html {
-    /* скрывает скролбары в firefox */
     scrollbar-width: none;
   }
   
@@ -33,7 +27,6 @@
     line-height: 18px;
   }
   
-  /* скрывает скролбары в chrome */
   body::-webkit-scrollbar {
     display: none;
   }
