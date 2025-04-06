@@ -11,7 +11,7 @@ export function renderUserPostsPageComponent({ appEl }) {
           return `
             <li class="post">
               <div class="post-image-container">
-                <img src="${post.imageUrl}" alt="Пост">
+                <img class="post-image" src="${post.imageUrl}" alt="Пост">
               </div>
               <div class="post-likes">
                 <button data-post-id="${post.id}" class="like-button">
